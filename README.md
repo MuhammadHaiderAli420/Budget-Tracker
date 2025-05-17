@@ -46,6 +46,28 @@ BUDGET-TRACKER/
 
 ---
 
+## 🗄️ Database Design
+
+The backend uses MongoDB with Mongoose to manage persistent data. The following collections are implemented:
+
+- **User**: Stores account information, including name, email (with format validation and uniqueness), and a securely hashed password using bcrypt.
+
+- **Transaction**: Logs income and expense records linked to users. It includes validation for transaction type (`Income` or `Expense`), category, amount, and date. 
+
+- **Budget**: Tracks budget limits per user and category. Validates categories against a defined list and enforces one budget per category per user via a compound index.
+
+### Additional Features
+
+- **Validation**: Enforced at the schema level for all models (e.g., required fields, format validation, numeric constraints, enums).
+  
+- **Relationships**: Both transactions and budgets reference the user `_id` using Mongoose `ObjectId` and `ref`.
+
+- **Seeding**: A `seed.js` script is available to insert a sample user, multiple budgets, and transactions for testing purposes.
+
+- **ERD Diagram**: Located in `/Backend/Docs/ERD.jpeg`, visualizing the relationships and schema design.
+
+---
+
 ## ⚙️ Installation & Running
 
 ### 1. Clone & install
