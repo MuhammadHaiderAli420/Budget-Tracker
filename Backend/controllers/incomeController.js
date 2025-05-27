@@ -1,113 +1,60 @@
 const Income = require('../models/Income');
-const xlsx = require('xlsx');
 
-// Add Income
-const addIncome = async (req, res) => {
-  const userId = req.user.id;
-
+// ✅ Add Income
+exports.addIncomeData = async (req, res) => {
   try {
-    const { icon, source, amount, date } = req.body;
+    const { source, amount, date, category, description } = req.body;
 
     if (!source || !amount || !date) {
-      return res.status(400).json({ message: 'All fields are required' });
+      return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    const newIncome = new Income({
-      userId,
-      icon,
+    const income = await Income.create({
+      userId: req.user._id,
       source,
       amount,
-      date: new Date(date)
+      date,
+      category,
+      description
     });
 
-    await newIncome.save();
-    res.status(201).json(newIncome);
+    res.status(201).json(income);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error(error);
+    res.status(500).json({ message: 'Server error while adding income' });
   }
 };
 
-// Get All Incomes
-const getAllIncome = async (req, res) => {
-  const userId = req.user.id;
+// ✅ Get All Income
+exports.getAllIncome = async (req, res) => {
   try {
-    const incomes = await Income.find({ userId }).sort({ date: -1 });
-    res.json(incomes);
+    const incomeList = await Income.find({ userId: req.user._id }).sort({ date: -1 });
+    res.status(200).json(incomeList);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: 'Failed to fetch income list' });
   }
 };
 
-// Delete Income
-const deleteIncome = async (req, res) => {
+// ✅ Update Income
+exports.updateIncome = async (req, res) => {
   try {
-    await Income.findByIdAndDelete(req.params.id);
-    res.json({ message: "Income deleted successfully" });
+    const updated = await Income.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user._id },
+      { ...req.body },
+      { new: true }
+    );
+    res.status(200).json(updated);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: 'Error updating income' });
   }
 };
 
-// Update Income
-const updateIncome = async (req, res) => {
-  const userId = req.user.id;
-  const { source, amount, date } = req.body;
-
-  if (!source || !amount || !date) {
-    return res.status(400).json({ message: 'All fields (source, amount, date) are required' });
-  }
-
+// ✅ Delete Income
+exports.deleteIncome = async (req, res) => {
   try {
-    const income = await Income.findById(req.params.id);
-
-    if (!income) {
-      return res.status(404).json({ message: 'Income not found' });
-    }
-
-    if (income.userId.toString() !== userId) {
-      return res.status(403).json({ message: 'Not authorized to update this income' });
-    }
-
-    income.source = source;
-    income.amount = amount;
-    income.date = new Date(date);
-
-    const updated = await income.save();
-
-    res.json(updated);
+    const removed = await Income.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+    res.status(200).json(removed);
   } catch (error) {
-    console.error('Update error:', error);
-    res.status(500).json({ message: 'Server error while updating income' });
+    res.status(500).json({ message: 'Error deleting income' });
   }
-};
-
-// Download Excel
-const downloadIncomeExcel = async (req, res) => {
-  const userId = req.user.id;
-  try {
-    const incomes = await Income.find({ userId }).sort({ date: -1 });
-
-    const data = incomes.map((item) => ({
-      Source: item.source,
-      Amount: item.amount,
-      Date: item.date.toISOString().split('T')[0]
-    }));
-
-    const wb = xlsx.utils.book_new();
-    const ws = xlsx.utils.json_to_sheet(data);
-    xlsx.utils.book_append_sheet(wb, ws, 'Income');
-    xlsx.writeFile(wb, 'income-details.xlsx');
-    res.download('income-details.xlsx');
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// ✅ Export all
-module.exports = {
-  addIncome,
-  getAllIncome,
-  deleteIncome,
-  downloadIncomeExcel,
-  updateIncome
 };

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Budget Manager</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f4fc;
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .form-section {
+      flex: 1;
+      padding: 60px;
+      background-color: white;
+    }
+    .form-section h2 {
+      font-size: 2rem;
+      color: #7c3aed;
+      margin-bottom: 10px;
+    }
+    .form-section p {
+      font-size: 14px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .form-section input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .form-section button {
+      background-color: #7c3aed;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .form-section a {
+      color: #7c3aed;
+      text-decoration: none;
+    }
+    .right-panel {
+      flex: 1;
+      background: linear-gradient(135deg, #c084fc, #a78bfa);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+    }
+    .right-panel i {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    .right-panel h4 {
+      font-weight: 600;
+      font-size: 20px;
+    }
+    .message {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-section">
+      <h2>Budget Manager</h2>
+      <p>Create your account</p>
+      <% if (typeof success !== 'undefined') { %>
+        <div class="message success"><%= success %></div>
+      <% } %>
+      <% if (typeof error !== 'undefined') { %>
+        <div class="message error"><%= error %></div>
+      <% } %>
+      <form action="/signup" method="POST">
+       <input type="text" name="fullName" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+      </form>
+      <p style="margin-top: 15px; font-size: 14px;">Already have an account? <a href="/login">Login</a></p>
+    </div>
+    <div class="right-panel">
+      <i class="material-icons">trending_up</i>
+      <h4>Track your Income & Expenses</h4>
+    </div>
+  </div>
+</body>
+</html>

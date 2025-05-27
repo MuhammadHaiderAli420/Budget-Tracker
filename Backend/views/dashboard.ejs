@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: 'Poppins', sans-serif;
+    }
+    .container {
+      padding-top: 30px;
+    }
+    .btn {
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card {
+      border-radius: 16px;
+    }
+    h4, h5 {
+      font-weight: 600;
+    }
+    table.striped > tbody > tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+    #dashboardCards .card-content h6 {
+      font-size: 1.2rem;
+      color: #333;
+    }
+    #dashboardCards .card-content h5 {
+      font-size: 2rem;
+    }
+    .action-btns button {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="right-align">
+      <button id="logoutBtn" class="btn red">Logout</button>
+    </div>
+
+    <div class="center-align" style="margin: 30px 0;">
+      <button onclick="window.location.href='/income/add'" class="btn purple">➕ Add Income</button>
+      <button id="toggleFormBtn" class="btn deep-purple">➕ Add Expense</button>
+    </div>
+
+    <h4 class="center-align purple-text text-darken-2">📊 Dashboard Overview</h4>
+
+    <!-- Cards -->
+    <div id="dashboardCards" class="row"></div>
+
+    <!-- Add/Edit Expense Form -->
+    <div id="expenseFormWrapper" class="card-panel" style="display: none;">
+      <form id="expenseForm">
+        <input type="hidden" id="editId" />
+        <div class="input-field">
+          <input type="text" id="category" required />
+          <label for="category">Category</label>
+        </div>
+        <div class="input-field">
+          <input type="number" id="amount" required />
+          <label for="amount">Amount</label>
+        </div>
+        <button type="submit" class="btn green">💾 Save</button>
+      </form>
+    </div>
+
+    <!-- Add/Edit Income Form -->
+    <div id="incomeFormWrapper" class="card-panel" style="display: none;">
+      <form id="incomeForm">
+        <input type="hidden" id="incomeEditId" />
+        <div class="input-field">
+          <input type="text" id="incomeTitle" required />
+          <label for="incomeTitle">Title</label>
+        </div>
+        <div class="input-field">
+          <input type="number" id="incomeAmount" required />
+          <label for="incomeAmount">Amount</label>
+        </div>
+        <div class="input-field">
+          <input type="date" id="incomeDate" required />
+          <label for="incomeDate" class="active">Date</label>
+        </div>
+        <div class="input-field">
+          <select id="incomeCategory" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="salary">Salary</option>
+            <option value="freelance">Freelance</option>
+            <option value="investment">Investment</option>
+            <option value="gift">Gift</option>
+            <option value="other">Other</option>
+          </select>
+          <label>Category</label>
+        </div>
+        <div class="input-field">
+          <textarea id="incomeDescription" class="materialize-textarea"></textarea>
+          <label for="incomeDescription">Description</label>
+        </div>
+        <button type="submit" class="btn green">💾 Save</button>
+      </form>
+    </div>
+
+    <!-- Transactions -->
+    <h5 class="center-align">🧾 Recent Transactions</h5>
+    <table class="striped centered highlight">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="transactionsTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    document.getElementById("logoutBtn").onclick = () => {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+      M.FormSelect.init(document.querySelectorAll("select"));
+      M.updateTextFields();
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
