@@ -54,5 +54,16 @@ npm run dev
 //production server
 npm start
 ```
+---
+## Frontend Structure and Layout
+
+The frontend side uses EJS for the structure, Javascript for the logic and Tailwind CSS for the styling. It is divided into the following sections:
+- Auth - *login* and *signup*
+- Dashboard/home - with charts, tables andquick actions
+- Income
+- Expenses
+---
+
+
 
 
