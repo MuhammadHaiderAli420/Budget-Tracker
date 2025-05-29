@@ -11,7 +11,6 @@ A full-stack budget tracking application built with **Node.js**, **Express**, **
 - Add, edit, and delete income/expense entries
 - View total income, expense, and balance overview
 - Responsive dashboard with transaction history
-- Visualization of income/expenses distributions.
 
 ###  Admin Features
 - Secure admin login with fixed credentials
@@ -23,7 +22,7 @@ A full-stack budget tracking application built with **Node.js**, **Express**, **
 
 ##  Tech Stack
 
-- **Frontend**: EJS + Vanilla JavaScript + Tailwind CSS
+- **Frontend**: EJS + Vanilla JavaScript + Materialize CSS
 - **Backend**: Node.js + Express
 - **Database**: MongoDB (Mongoose)
 - **Authentication**: JWT with role-based access control
@@ -36,34 +35,5 @@ A full-stack budget tracking application built with **Node.js**, **Express**, **
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/MuhammadHaiderAli420/Budget-Tracker.git
-cd Budget-Tracker
-```
-
-### 2. Install necessary dependencies.
-```bash
-cd Backend
-npm install
-```
-
-### 3.Run the project
-```bash
-//development server
-npm run dev
-
-//production server
-npm start
-```
----
-## Frontend Structure and Layout
-
-The frontend side uses EJS for the structure, Javascript for the logic and Tailwind CSS for the styling. It is divided into the following sections:
-- Auth - *login* and *signup*
-- Dashboard/home - with charts, tables andquick actions
-- Income
-- Expenses
----
-
-
-
-
+git clone https://github.com/your-username/budget-tracker.git
+cd budget-tracker
