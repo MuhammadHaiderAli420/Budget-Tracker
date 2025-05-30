@@ -8,14 +8,18 @@ const IncomeSchema = new mongoose.Schema({
   },
   icon: {
     type: String,
+    trim: true  // clean up string inputs
   },
   source: {
     type: String,
     required: true,
+    trim: true,  // clean up string inputs
+    minlength: 2
   },
   amount: {
     type: Number,
     required: true,
+    min: [0, "Amount cannot be negative"]
   },
   date: {
     type: Date,
@@ -24,5 +28,5 @@ const IncomeSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// ✅ Prevent OverwriteModelError
+// Prevent OverwriteModelError 
 module.exports = mongoose.models.Income || mongoose.model('Income', IncomeSchema);
