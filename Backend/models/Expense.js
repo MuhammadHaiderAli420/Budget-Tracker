@@ -14,7 +14,8 @@ const ExpenseSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true,
-            trim: true  // clean up string inputs   
+            trim: true  // clean up string inputs
+            minlength: 2     
         },
         amount: {
             type: Number,
