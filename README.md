@@ -35,21 +35,21 @@ A full-stack budget tracking application built with **Node.js**, **Express**, **
 
 The backend uses MongoDB with Mongoose to manage persistent data. The following collections are implemented:
 
-- **User**: Stores account information, including name, email (with format validation and uniqueness), and a securely hashed password using bcrypt.
+- **User**: Stores account information, including full name, email and a securely hashed password using bcrypt. Additional fields include profileImageUrl, isAdmin, and timestamps.
 
-- **Transaction**: Logs income and expense records linked to users. It includes validation for transaction type (`Income` or `Expense`), category, amount, and date. 
+- **Income**: Stores income records linked to users. Each record includes userId, source, amount, date, icon, and timestamps.
 
-- **Budget**: Tracks budget limits per user and category. Validates categories against a defined list and enforces one budget per category per user via a compound index.
+- **Expense**: Stores expense records linked to users. Each record includes userId, category, amount, date, notes, icon, and timestamps.
 
 ### Additional Features
 
-- **Validation**: Enforced at the schema level for all models (e.g., required fields, format validation, numeric constraints, enums).
+- **Validation**: Enforced at the schema level for all models, including required fields, format validation, numeric constraints, and string trimming.
   
-- **Relationships**: Both transactions and budgets reference the user `_id` using Mongoose `ObjectId` and `ref`.
+- **Relationships**: Income and Expense reference the userId using Mongoose ObjectId and ref.
 
-- **Seeding**: A `seed.js` script is available to insert a sample user, multiple budgets, and transactions for testing purposes.
+- **Seeding**: A `seed.js` script is available to insert a sample user, multiple income and expense records for testing purposes.
 
-- **ERD Diagram**: Located in `/Backend/Docs/ERD.jpeg`, visualizing the relationships and schema design.
+- **ERD Diagram**: Located in `/Backend/Docs/ERD.png`, visualizing the relationships and schema design.
 
 ---
 
