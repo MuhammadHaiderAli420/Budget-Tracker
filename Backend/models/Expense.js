@@ -5,7 +5,8 @@ const ExpenseSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true
+            required: true,
+            index: true 
         },
         icon: {
             type: String,
@@ -15,7 +16,9 @@ const ExpenseSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,  // clean up string inputs
-            minlength: 2
+ feat/Database
+            minlength: 2    
+            minlength: main
         },
         amount: {
             type: Number,
@@ -54,4 +57,46 @@ const ExpenseSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model("Expense", ExpenseSchema);
+//Aggregation function: Total expense for user (all time)
+ 
+ExpenseSchema.statics.totalExpenseByUser = async function(userId) {
+    return this.aggregate([
+        { $match: { userId: mongoose.Types.ObjectId(userId) } },
+        { $group: { _id: null, totalExpense: { $sum: "$amount" } } }
+    ]);
+};
+
+//Aggregation function: Total expense for user by month
+ 
+ExpenseSchema.statics.totalExpenseByUserPerMonth = async function(userId) {
+    return this.aggregate([
+        { $match: { userId: mongoose.Types.ObjectId(userId) } },
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$date" },
+                    month: { $month: "$date" }
+                },
+                totalExpense: { $sum: "$amount" }
+            }
+        },
+        { $sort: { "_id.year": 1, "_id.month": 1 } }
+    ]);
+};
+
+//Aggregation function: Total expense for user by year
+ 
+ExpenseSchema.statics.totalExpenseByUserPerYear = async function(userId) {
+    return this.aggregate([
+        { $match: { userId: mongoose.Types.ObjectId(userId) } },
+        {
+            $group: {
+                _id: { year: { $year: "$date" } },
+                totalExpense: { $sum: "$amount" }
+            }
+        },
+        { $sort: { "_id.year": 1 } }
+    ]);
+};
+
+module.exports = mongoose.models.Expense || mongoose.model("Expense", ExpenseSchema);

@@ -71,3 +71,33 @@ exports.deleteIncome = async (req, res) => {
     res.status(500).json({ message: 'Error deleting income' });
   }
 };
+
+// Get Total Income (All Time)
+exports.getTotalIncome = async (req, res) => {
+  try {
+    const result = await Income.totalIncomeByUser(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get Total Income by Month
+exports.getMonthlyIncome = async (req, res) => {
+  try {
+    const result = await Income.totalIncomeByUserPerMonth(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get Total Income by Year
+exports.getYearlyIncome = async (req, res) => {
+  try {
+    const result = await Income.totalIncomeByUserPerYear(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
