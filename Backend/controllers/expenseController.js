@@ -136,11 +136,43 @@ const downloadExpenseExcel = async (req, res) => {
   }
 };
 
+// Aggregation functions
+
+const getTotalExpense = async (req, res) => {
+  try {
+    const result = await Expense.totalExpenseByUser(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getMonthlyExpense = async (req, res) => {
+  try {
+    const result = await Expense.totalExpenseByUserPerMonth(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getYearlyExpense = async (req, res) => {
+  try {
+    const result = await Expense.totalExpenseByUserPerYear(req.params.userId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Export all functions
 module.exports = {
   addExpense,
   getAllExpense,
   deleteExpense,
   downloadExpenseExcel,
-  updateExpense
+  updateExpense,
+  getTotalExpense,
+  getMonthlyExpense,
+  getYearlyExpense
 };
