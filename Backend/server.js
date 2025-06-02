@@ -34,12 +34,31 @@ app.use("/api/v1/admin", adminRoutes);
 app.get('/', (req, res) => res.redirect('/login'));
 app.get('/login', (req, res) => res.render('login', { success: null, error: null }));
 app.get('/signup', (req, res) => res.render('signup', { error: null }));
-app.get('/dashboard', (req, res) => res.render('dashboard'));
+app.get('/dashboard', (req, res) => {
+    res.render('dashboard', {
+        title: 'Dashboard',
+        currentPage: 'dashboard',
+        API_URL: process.env.API_URL || 'http://localhost:5000'
+    });
+});
 app.get('/income/add', (req, res) => res.render('addIncome', { error: null }));
 app.get('/admin/dashboard', (req, res) => {
   res.render('adminDashboard'); // you'll create this EJS view
 });
-
+app.get('/income', (req, res) => {
+    res.render('income', {
+        title: 'Income Management',
+        currentPage: 'income',
+        API_URL: process.env.API_URL || 'http://localhost:5000'
+    });
+});
+app.get('/expenses', (req, res) => {
+    res.render('expense', {
+        title: 'Expense Management',
+        currentPage: 'expenses',
+        API_URL: process.env.API_URL || 'http://localhost:5000'
+    });
+});
 
 // Signup EJS route
 app.post('/signup', async (req, res) => {
@@ -71,7 +90,7 @@ async function createAdmin() {
 const PORT = process.env.PORT || 5000;
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    createAdmin();
-  });
-});
+        console.log(`Server is running on port ${PORT}`);
+        createAdmin();
+      });
+    });

@@ -1,40 +1,42 @@
-document.getElementById("signupForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+    const errorMsg = document.getElementById('errorMsg');
 
-  const fullName = document.getElementById("fullName").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const image = document.querySelector('input[name="profileImageUrl"]').files[0];
-  const errorBox = document.getElementById("errorMsg");
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-  if (!fullName || !email || !password) {
-    errorBox.textContent = "Please fill in all required fields.";
-    return;
-  }
+        const formData = {
+            fullName: form.fullName.value.trim(),
+            email: form.email.value.trim(),
+            password: form.password.value.trim()
+        };
 
-  const formData = new FormData();
-  formData.append("fullName", fullName);
-  formData.append("email", email);
-  formData.append("password", password);
-  if (image) formData.append("profileImageUrl", image);
+        if (!formData.fullName || !formData.email || !formData.password) {
+            errorMsg.textContent = "Please fill in all required fields.";
+            return;
+        }
 
-  try {
-    const res = await fetch("/api/v1/auth/register", {
-      method: "POST",
-      body: formData,
+        try {
+            const res = await fetch('/api/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                errorMsg.textContent = data.message || "Signup failed";
+                return;
+            }
+
+            alert('Account created successfully! Redirecting to login...');
+            window.location.href = '/login';
+        } catch (err) {
+            console.error('Signup Error:', err);
+            errorMsg.textContent = "Something went wrong. Please try again.";
+        }
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      errorBox.textContent = data.message || "Signup failed";
-      return;
-    }
-
-    alert("Signup successful! Redirecting to login...");
-    window.location.href = "/login";
-  } catch (err) {
-    console.error("Signup Error", err);
-    errorBox.textContent = "Something went wrong.";
-  }
 });
