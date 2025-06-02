@@ -26,7 +26,24 @@ const IncomeSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-  }
+  },
+  recurring: {
+  type: Boolean,
+  default: false
+},
+recurringType: {
+  type: String,
+  enum: ['monthly', 'weekly'],
+  default: null
+},
+nextRecurringDate: {
+  type: Date,
+  default: null
+},
+pinned: {
+  type: Boolean,
+  default: false,
+}
 }, { timestamps: true });
 
 //Aggregation function: Total income for user (all time)

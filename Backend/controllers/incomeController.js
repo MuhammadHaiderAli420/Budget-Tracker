@@ -1,13 +1,22 @@
 const Income = require('../models/Income');
+const moment = require('moment');
+
 
 // ✅ Add Income
 exports.addIncomeData = async (req, res) => {
   try {
-    const { source, amount, date, category, description } = req.body;
+    const { source, amount, date, category, description, recurring = false, recurringType = null, pinned = false } = req.body;
 
     if (!source || !amount || !date) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
+
+     const nextRecurringDate =
+          recurring && recurringType === 'monthly'
+            ? moment(date).add(1, 'month')
+            : recurring && recurringType === 'weekly'
+            ? moment(date).add(1, 'week')
+            : null;
 
     const income = await Income.create({
       userId: req.user._id,
@@ -15,7 +24,11 @@ exports.addIncomeData = async (req, res) => {
       amount,
       date,
       category,
-      description
+      description,
+      recurring,
+      recurringType: recurring ? recurringType : null,
+      nextRecurringDate,
+      pinned,
     });
 
     res.status(201).json(income);

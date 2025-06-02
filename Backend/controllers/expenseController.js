@@ -6,18 +6,30 @@ const addExpense = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const { icon, category, amount, date } = req.body;
+    const { icon, category, amount, date, recurring = false,
+      recurringType = null, pinned = false } = req.body;
 
     if (!category || !amount || !date) {
       return res.status(400).json({ message: 'All fields are required' });
     }
+
+    const nextRecurringDate =
+          recurring && recurringType === 'monthly'
+            ? moment(date).add(1, 'month').toDate()
+            : recurring && recurringType === 'weekly'
+              ? moment(date).add(1, 'week').toDate()
+              : null;
 
     const newExpense = new Expense({
       userId,
       icon,
       category,
       amount,
-      date: new Date(date)
+      date: new Date(date),
+      recurring,
+      recurringType,
+      nextRecurringDate,
+      pinned,
     });
 
     await newExpense.save();
