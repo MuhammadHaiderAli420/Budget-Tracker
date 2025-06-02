@@ -14,8 +14,8 @@ const ExpenseSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true,
-            trim: true  // clean up string inputs
-            minlength: 2     
+            trim: true,  // clean up string inputs
+            minlength: 2
         },
         amount: {
             type: Number,
@@ -31,7 +31,25 @@ const ExpenseSchema = new mongoose.Schema(
             type: String,
             trim: true,  // clean up string inputs   
             default: ""
-        }
+        },
+
+        recurring: {
+            type: Boolean,
+            default: false,
+        },
+        recurringType: {
+            type: String,
+            enum: ['monthly', 'weekly'],
+            default: null,
+        },
+        nextRecurringDate: {
+            type: Date,
+            default: null,
+        },
+        pinned: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );
