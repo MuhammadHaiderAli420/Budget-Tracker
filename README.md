@@ -9,6 +9,10 @@ A full-stack budget tracking application built with **Node.js**, **Express**, **
 ###  User Features
 - Register and login with JWT authentication
 - Add, edit, and delete income/expense entries
+- Recurring Transactions  
+    Users can mark income or expense entries as "Recurring". These are automatically tracked and flagged for easy identification. Options include monthly, weekly, etc. Future enhancements may include auto-generation logic.
+- Pinned Transactions  
+    Important or frequent transactions can be pinned for quick access and visibility at the top of lists.
 - View total income, expense, and balance overview
 - Responsive dashboard with transaction history
 - Visualization of income/expenses distributions.
@@ -37,9 +41,9 @@ The backend uses MongoDB with Mongoose to manage persistent data. The following 
 
 - **User**: Stores account information, including full name, email and a securely hashed password using bcrypt. Additional fields include profileImageUrl, isAdmin, and timestamps.
 
-- **Income**: Stores income records linked to users. Each record includes userId, source, amount, date, icon, and timestamps.
+- **Income**: Stores income records linked to users. Each record includes userId, source, amount, date, icon, Recurring, Recurring Type, Pinned and timestamps.
 
-- **Expense**: Stores expense records linked to users. Each record includes userId, category, amount, date, notes, icon, and timestamps.
+- **Expense**: Stores expense records linked to users. Each record includes userId, category, amount, date, notes, icon, Recurring, Recurring Type, Pinned and timestamps.
 
 ### Additional Features
 
@@ -88,6 +92,14 @@ The frontend side uses EJS for the structure, Javascript for the logic and Tailw
 - Income
 - Expenses
 ---
+Testing Procedures
+
+- Manual test cases were written to validate all operations.
+- New test cases cover:
+  - Recurring transaction creation, editing, and deletion.
+  - Pinning/unpinning transactions and verifying their position in the UI.
+- Test logs and checklists maintained in shared QA documentation.
+
 
 
 
