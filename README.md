@@ -53,6 +53,47 @@ The backend uses MongoDB with Mongoose to manage persistent data. The following 
 
 ---
 
+## Routes Design
+The design of the API routes for the Budget Tracker Web Application, covering authentication, admin, dashboard, expense, and income functionalities are shown belwo:
+
+- **Admin**: 
+Admin routes provide privileged access for managing users and platform oversight, restricted to admin users
+    + Renders the admin dashboard for system monitoring. http:localhost:{port}/api/admin/dashboard
+    + Retrieves a list of all users (excluding passwords). http:localhost:{port}/api/admin/users
+    + Promotes a user to admin status. http:localhost:{port}/api/admin/users/:id/make-admin
+    + Deletes a user account. http:localhost:{port}/api/admin/users/:id
+
+
+- **User**: 
+    + Registers a new user with email and password, storing hashed credentials. http:localhost:{port}/api/auth/register
+    + Authenticates a user and returns a JWT token for session management. http:localhost:{port}/api/dashboard/api/auth/login
+    + Retrieves authenticated user’s profile information. http:localhost:{port}/api/auth/getUser
+    + Allows users to upload profile images. http:localhost:{port}/api/auth/upload-image
+
+
+- **Dashboard**: 
+The dashboard route provides an overview of the user’s financial data, supporting visualization requirements. 
+    +Fetches data for the user’s financial dashboard. http:localhost:{port}/api/dashboard/
+
+
+- **Expense**: 
+Expense routes manage user expense transactions, supporting CRUD operations and export functionality.
+    + Adds a new expense entry (category, amount, date). http:localhost:{port}/api/expenses/add
+    + Retrieves all expenses for the authenticated user, with optional filtering. http:localhost:{port}/api/expenses/get
+    + Updates an existing expense. http:localhost:{port}/api/expenses/:id
+    + Deletes an expense. http:localhost:{port}/api/expenses/:id
+    + Exports expenses as an Excel file. http:localhost:{port}/api/expenses/downloadExcel
+
+
+- **Income**: 
+Income routes manage user income transactions, mirroring expense functionality for CRUD operations.
+    + Adds a new income entry (source, amount, date). http:localhost:{port}/api/income/add
+    + Retrieves all incomes for the authenticated user. http:localhost:{port}/api/income/get
+    + Updates an existing income. http:localhost:{port}/api/income/:id
+    + Deletes an income entry. http:localhost:{port}/api/income/:id
+
+---
+
 ## ⚙️ Installation & Running
 
 ##  Setup Instructions
@@ -65,7 +106,7 @@ git clone https://github.com/MuhammadHaiderAli420/Budget-Tracker.git
 cd Budget-Tracker
 ```
 
-### 2. Install necessary dependencies.
+### 2. Install necessary dependencies
 ```bash
 cd Backend
 npm install
@@ -79,7 +120,22 @@ npm run dev
 //production server
 npm start
 ```
+
+### 4. Video for project setup
+
+Link for sprit 1:
+```
+https://www.youtube.com/watch?v=sK-7vECipS4
+```
+
+Link for sprint 2:
+```
+https://www.youtube.com/watch?v=494Frq-Skmg
+```
+
 ---
+
+
 ## Frontend Structure and Layout
 
 The frontend side uses EJS for the structure, Javascript for the logic and Tailwind CSS for the styling. It is divided into the following sections:
@@ -88,7 +144,3 @@ The frontend side uses EJS for the structure, Javascript for the logic and Tailw
 - Income
 - Expenses
 ---
-
-
-
-
